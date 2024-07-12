@@ -17,6 +17,14 @@ def click_cart(context):
     context.driver.find_element(By.CSS_SELECTOR, "[href='/icons/Cart.svg#Cart']").click()
 
 
+@when('User searches for product')
+def search_product(context):
+    context.driver.find_element(By.ID, "search").send_keys('tea')
+    sleep(4)
+    context.driver.find_element(By.CSS_SELECTOR, "[data-test = '@web/Search/SearchButton']").click()
+    sleep(4)
+
+
 @when('Clicking on Sign in')
 def click_signin(context):
     context.driver.find_element(By.XPATH, "//span[text()='Sign in']").click()
@@ -39,6 +47,12 @@ def sign_in_form(context):
     expected_text= "Sign into your Target account"
     actual_text = context.driver.find_element(By.XPATH, "//span[text()='Sign into your Target account']").text
     assert expected_text == actual_text, f'Expected result, "{expected_text}" does not match the actual result," {actual_text}".'
+
+@then ('Verify search worked')
+def search_worked(context):
+    expected_text = 'tea'
+    actual_text = context.driver.find_element(By.XPATH, "//div[@data-test= 'resultsHeading']").text
+    assert expected_text in actual_text, f'Expected text, "{expected_text}" does not match the actual text," {actual_text}".'
 
 
 
